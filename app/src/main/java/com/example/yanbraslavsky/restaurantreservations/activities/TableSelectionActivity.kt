@@ -1,9 +1,10 @@
-package com.example.yanbraslavsky.restaurantreservations
+package com.example.yanbraslavsky.restaurantreservations.activities
 
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.yanbraslavsky.restaurantreservations.R
 
 class TableSelectionActivity : AppCompatActivity() {
 
