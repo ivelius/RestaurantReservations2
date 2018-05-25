@@ -12,6 +12,7 @@ object CustomersContract {
      */
     interface View : BaseContract.View {
         fun showCustomers(data: List<CustomerModel>)
+        fun openReservationScreenForCustomer(customerModel: CustomerModel)
     }
 
     /**
@@ -19,5 +20,6 @@ object CustomersContract {
      * View -> Presenter
      */
     interface Presenter : BaseContract.Presenter<View> {
+        fun onItemClicked(customerModel: CustomerModel)
     }
 }

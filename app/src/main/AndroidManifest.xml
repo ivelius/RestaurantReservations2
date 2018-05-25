@@ -13,14 +13,20 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.main.MainView">
+        <activity
+            android:name=".screens.main.MainView"
+            android:label="@string/start_screen_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.customers.CustomersView" />
-        <activity android:name=".activities.TableSelectionActivity"></activity>
+        <activity
+            android:name=".screens.customers.CustomersView"
+            android:label="@string/customers_screen_title" />
+        <activity
+            android:name=".activities.ReservationView"
+            android:label="@string/reservation_screen_title" />
     </application>
 
 </manifest>

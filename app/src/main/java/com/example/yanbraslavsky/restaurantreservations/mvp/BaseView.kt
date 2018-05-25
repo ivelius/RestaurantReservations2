@@ -34,7 +34,7 @@ abstract class BaseView : AppCompatActivity(), BaseContract.View {
 
     override fun showError(errorMessage: String) {
         val snack = Snackbar.make(window.decorView, errorMessage, Snackbar.LENGTH_LONG)
-        val tv = snack.view.findViewById<TextView>(android.support.design.R.id.snackbar_text) as TextView
+        val tv = snack.view.findViewById(android.support.design.R.id.snackbar_text) as TextView
         tv.setTextColor(Color.RED)
         snack.show()
     }

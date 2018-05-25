@@ -52,5 +52,10 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
         )
     }
 
+    override fun onItemClicked(customerModel: CustomerModel) {
+        mBoundView?.openReservationScreenForCustomer(customerModel)
+    }
+
+
     private fun wrapErrorMessage(error: Throwable) = error.message ?: "Something is wrong :("
 }
