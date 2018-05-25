@@ -1,9 +1,9 @@
 package com.example.yanbraslavsky.restaurantreservations
 
 import android.app.Application
-import com.example.yanbraslavsky.restaurantreservations.app.AppComponent
-import com.example.yanbraslavsky.restaurantreservations.app.AppModule
-import com.example.yanbraslavsky.restaurantreservations.app.DaggerAppComponent
+import com.example.yanbraslavsky.restaurantreservations.di.AppComponent
+import com.example.yanbraslavsky.restaurantreservations.di.AppModule
+import com.example.yanbraslavsky.restaurantreservations.di.DaggerAppComponent
 
 /**
  * Created by yan.braslavski on 11/13/17.

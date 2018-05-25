@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 
 
-abstract class BaseActivity : AppCompatActivity(), BaseContract.View {
+abstract class BaseView : AppCompatActivity(), BaseContract.View {
 
     override fun showMessage(message: String) {
         Snackbar.make(window.decorView, message, Snackbar.LENGTH_LONG).show()
