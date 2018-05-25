@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseView
 import kotlinx.android.synthetic.main.activity_customer_selection.*
 import javax.inject.Inject
@@ -42,13 +42,13 @@ class CustomersView : BaseView(), CustomersContract.View {
         }
     }
 
-    override fun showCustomers(data: List<CustomerModel>) {
+    override fun showCustomers(data: List<CustomerEntity>) {
         recyclerView?.adapter = CustomersAdapter(data, {
             mPresenter.onItemClicked(it)
         })
     }
 
-    override fun openReservationScreenForCustomer(customerModel: CustomerModel) {
-        ReservationView.open(this, customerModel)
+    override fun openReservationScreenForCustomer(customer: CustomerEntity) {
+        ReservationView.open(this, customer)
     }
 }

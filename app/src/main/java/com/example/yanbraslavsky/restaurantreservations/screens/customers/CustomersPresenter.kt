@@ -1,15 +1,14 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
-import com.example.yanbraslavsky.restaurantreservations.usecases.CustomersUseCase
 import javax.inject.Inject
 
 
 open class CustomersPresenter @Inject constructor(private val mCustomersUseCase: CustomersUseCase)
     : BasePresenter<CustomersContract.View>(), CustomersContract.Presenter {
 
-    private var mData: List<CustomerModel>? = null
+    private var mData: List<CustomerEntity>? = null
 
     override fun bind(view: CustomersContract.View) {
         super.bind(view)
@@ -24,14 +23,14 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
     }
 
 
-    private fun showData(data: List<CustomerModel>) {
+    private fun showData(data: List<CustomerEntity>) {
         mBoundView?.showCustomers(data)
     }
 
     private fun fetchData() {
         mBoundView?.showLoading()
         mDisposablesBag.add(
-                mCustomersUseCase.getRemoteCustomersList()
+                mCustomersUseCase.getCustomers()
                         .doFinally({ mBoundView?.stopLoading() })
                         .subscribe(
                                 { result ->
@@ -49,8 +48,8 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
         )
     }
 
-    override fun onItemClicked(customerModel: CustomerModel) {
-        mBoundView?.openReservationScreenForCustomer(customerModel)
+    override fun onItemClicked(customer: CustomerEntity) {
+        mBoundView?.openReservationScreenForCustomer(customer)
     }
 
 

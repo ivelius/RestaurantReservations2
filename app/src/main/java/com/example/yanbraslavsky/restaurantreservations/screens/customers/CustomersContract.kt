@@ -1,6 +1,7 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseContract
 
 
@@ -11,8 +12,8 @@ object CustomersContract {
      * Presenter -> View
      */
     interface View : BaseContract.View {
-        fun showCustomers(data: List<CustomerModel>)
-        fun openReservationScreenForCustomer(customerModel: CustomerModel)
+        fun showCustomers(data: List<CustomerEntity>)
+        fun openReservationScreenForCustomer(customer: CustomerEntity)
     }
 
     /**
@@ -20,6 +21,6 @@ object CustomersContract {
      * View -> Presenter
      */
     interface Presenter : BaseContract.Presenter<View> {
-        fun onItemClicked(customerModel: CustomerModel)
+        fun onItemClicked(customer: CustomerEntity)
     }
 }

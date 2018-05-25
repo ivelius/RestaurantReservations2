@@ -2,7 +2,7 @@ package com.example.yanbraslavsky.restaurantreservations.api
 
 import com.example.yanbraslavsky.restaurantreservations.BuildConfig
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
-import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,19 +10,19 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
-interface RestarauntService {
+interface RestaurantService {
 
     @GET("/quandoo-assessment/customer-list.json")
-    fun getCustomers(): Observable<List<CustomerModel>>
+    fun getCustomers(): Single<List<CustomerModel>>
 
     @GET("/quandoo-assessment/table-map.json")
-    fun getTables(): Observable<List<Boolean>>
+    fun getTables(): Single<List<Boolean>>
 
     companion object {
 
         private val BASE_URL = "https://s3-eu-west-1.amazonaws.com/"
 
-        fun create(): RestarauntService {
+        fun create(): RestaurantService {
             val httpClient = createHttpClient()
             val retrofit = Retrofit.Builder()
                     .client(httpClient.build())
@@ -34,7 +34,7 @@ interface RestarauntService {
                     .baseUrl(BASE_URL)
                     .build()
 
-            return retrofit.create(RestarauntService::class.java)
+            return retrofit.create(RestaurantService::class.java)
         }
 
         private fun createHttpClient(): OkHttpClient.Builder {
