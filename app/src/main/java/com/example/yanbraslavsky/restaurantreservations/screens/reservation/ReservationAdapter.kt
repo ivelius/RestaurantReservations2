@@ -22,7 +22,10 @@ class ReservationAdapter(private val mDataItems: List<ReservationContract.GridCe
         holder.mItem = mDataItems[position]
         holder.mItem?.let { item ->
 
-            holder.mImageButton.isEnabled = item.mTableEntity.available
+            //this table might be reserved by this customer , so we will give him a
+            //possibility to change his reservation by showing this table as "available"
+            //and selected
+            holder.mImageButton.isEnabled = item.mTableEntity.available && !item.reservedByOther
             holder.mImageButton.isSelected = item.mSelected
             if (holder.mImageButton.isEnabled) {
                 holder.mImageButton.alpha = 1.0F

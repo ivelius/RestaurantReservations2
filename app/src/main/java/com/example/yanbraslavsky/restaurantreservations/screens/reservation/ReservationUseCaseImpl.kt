@@ -42,8 +42,13 @@ class ReservationUseCaseImpl
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun updateTable(table: TableEntity) {
-        mRestaurantDatabase.tableDao().update(table)
+    override fun updateTable(table: TableEntity): Single<TableEntity> {
+        return Single.just(table)
+                .doOnSuccess({
+                    mRestaurantDatabase.tableDao().update(it)
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
 }

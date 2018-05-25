@@ -7,5 +7,5 @@ import io.reactivex.Single
 interface ReservationUseCase {
 
     fun getRemoteTablesList(): Single<List<TableEntity>>
-    fun updateTable(tables: TableEntity)
+    fun updateTable(tables: TableEntity) : Single<TableEntity>
 }

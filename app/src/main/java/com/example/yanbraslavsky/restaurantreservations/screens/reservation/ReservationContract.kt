@@ -8,7 +8,7 @@ import com.example.yanbraslavsky.restaurantreservations.mvp.BaseContract
 object ReservationContract {
 
     //We declare this view model for selection tracking
-    class GridCellTableModel(val mTableEntity: TableEntity, var mSelected: Boolean)
+    class GridCellTableModel(val mTableEntity: TableEntity, var mSelected: Boolean, var reservedByOther: Boolean)
 
     /**
      * Here we define the communication :

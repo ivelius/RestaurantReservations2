@@ -37,7 +37,8 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
                         .map {
                             return@map it.map {
                                 val selected = mCustomer?.customerId == it.reservedByCustomerId
-                                return@map ReservationContract.GridCellTableModel(it, selected)
+                                val reservedByOther = (it.reservedByCustomerId != null) && mCustomer?.customerId != it.reservedByCustomerId
+                                return@map ReservationContract.GridCellTableModel(it, selected, reservedByOther)
                             }
                         }
                         .doFinally({ mBoundView?.stopLoading() })
@@ -63,23 +64,10 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
         mData?.find { tableItem.mTableEntity.tableNumber == it.mTableEntity.tableNumber }?.let {
             it.mSelected = !it.mSelected
             mBoundView?.updateTable(it)
-        }
-    }
 
-    override fun unbind() {
-        super.unbind()
-        // Now when user is finished with the selection
-        // we can update the database
-        mData?.let {
-            it.map {
-                //we want to update the state of this table
-                //and mark it as reserved for current customer
-                if (it.mSelected) {
-                    it.mTableEntity.reservedByCustomerId = mCustomer?.customerId
-                    mReservationUseCase.updateTable(it.mTableEntity)
-                }
-                return@map it.mTableEntity
-            }
+            //we update the database right after selection was changed
+            it.mTableEntity.reservedByCustomerId = if (it.mSelected) mCustomer?.customerId else null
+            mReservationUseCase.updateTable(it.mTableEntity).subscribe()
         }
     }
 
