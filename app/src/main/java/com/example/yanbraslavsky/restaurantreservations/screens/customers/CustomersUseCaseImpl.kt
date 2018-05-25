@@ -30,8 +30,10 @@ class CustomersUseCaseImpl
                         return@flatMap mApiService.getCustomers()
                                 .map {
                                     it.map {
-                                        CustomerEntity(0, it.customerFirstName,
+                                        val customer = CustomerEntity(0, it.customerFirstName,
                                                 it.customerLastName, it.id)
+                                        mRestarauntDatabase.customerDao().insert(customer)
+                                        return@map customer
                                     }
                                 }
                     }
