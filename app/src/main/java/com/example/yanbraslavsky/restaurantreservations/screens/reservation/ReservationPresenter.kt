@@ -48,6 +48,10 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
         )
     }
 
+    override fun onTableItemClick(tableItem: Boolean) {
+        mBoundView?.showMessage("clicked")
+    }
+
 
     private fun wrapErrorMessage(error: Throwable) = error.message ?: "Something is wrong :("
 }

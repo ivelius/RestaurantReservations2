@@ -11,7 +11,6 @@ object ReservationContract {
      */
     interface View : BaseContract.View {
         fun showTables(data: List<Boolean>)
-
     }
 
     /**
@@ -19,5 +18,6 @@ object ReservationContract {
      * View -> Presenter
      */
     interface Presenter : BaseContract.Presenter<View> {
+        fun onTableItemClick(tableItem: Boolean)
     }
 }
