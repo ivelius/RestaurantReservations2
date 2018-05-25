@@ -25,13 +25,16 @@ class TableFreeWorker :
     }
 
     override fun doWork(): Worker.WorkerResult {
-        Log.d(TableFreeWorker::class.java.simpleName, "Cleaning Tables...")
         makeTablesAvailable()
         return WorkerResult.SUCCESS
     }
 
     private fun makeTablesAvailable() {
         val tables = mRestaurantDatabase.tableDao().getTables().blockingGet()
+        if (tables.isEmpty()) return
+
+        Log.d(TableFreeWorker::class.java.simpleName, "Cleaning Tables...")
+
         //we delete all tables in data base
         mRestaurantDatabase.tableDao().deleteTables()
 

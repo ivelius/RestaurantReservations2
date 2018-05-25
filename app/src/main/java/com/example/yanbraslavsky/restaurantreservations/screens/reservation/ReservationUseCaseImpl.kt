@@ -30,10 +30,6 @@ class ReservationUseCaseImpl
                         return@flatMap Single.just(it) else {
                         //no data in database , load from server
                         return@flatMap mApiService.getTables()
-                                .doOnSuccess({
-                                    //we schedule a periodic cleanup , once we have the table data
-                                    scheduleCleanup()
-                                })
                                 .map {
 
                                     var index = 0
@@ -52,14 +48,6 @@ class ReservationUseCaseImpl
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun scheduleCleanup() {
-        // using the fancy brand new WorkManager ()
-        // https://developer.android.com/topic/libraries/architecture/workmanager
-        // I am still not sure whether this thing is reliable , but google claims it is ...
-        WorkManager.getInstance()
-                .enqueue(PeriodicWorkRequest.Builder(TableFreeWorker::class.java,
-                        Duration.ofMinutes(BuildConfig.TABLE_REFRESH_INTERVAL_MINUTES)).build())
-    }
 
     override fun updateTable(table: TableEntity): Single<TableEntity> {
         return Single.just(table)

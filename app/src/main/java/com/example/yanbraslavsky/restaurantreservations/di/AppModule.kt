@@ -1,19 +1,21 @@
 package com.example.yanbraslavsky.restaurantreservations.di
 
 import android.arch.persistence.room.Room
+import android.content.Context
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
 import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
+import com.example.yanbraslavsky.restaurantreservations.persistance.AppPreferences
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersPresenter
+import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCaseImpl
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainPresenter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationPresenter
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCaseImpl
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCase
+import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,6 +27,10 @@ open class AppModule(private val mApp: App) {
     @Provides
     @Singleton
     open fun provideApi() = RestaurantService.create()
+
+    @Provides
+    @Singleton
+    open fun providePreferences() = AppPreferences(mApp.getSharedPreferences(mApp.packageName, Context.MODE_PRIVATE))
 
     @Provides
     @Singleton

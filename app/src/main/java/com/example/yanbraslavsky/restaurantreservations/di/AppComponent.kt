@@ -1,5 +1,6 @@
 package com.example.yanbraslavsky.restaurantreservations.di
 
+import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCaseImpl
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersView
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainView
@@ -28,4 +29,6 @@ interface AppComponent {
 
     //Workers
     fun inject(tableFreeWorker: TableFreeWorker)
+
+    fun inject(app: App)
 }
