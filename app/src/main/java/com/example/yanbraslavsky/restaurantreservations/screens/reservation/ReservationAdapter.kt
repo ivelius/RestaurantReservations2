@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import com.example.yanbraslavsky.restaurantreservations.R
-import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 
 
-class ReservationAdapter(private val mDataItems: List<TableEntity>,
-                         private val mListener: ((TableEntity) -> Unit)?) :
+class ReservationAdapter(private val mDataItems: List<ReservationContract.GridCellTableModel>,
+                         private val mListener: ((ReservationContract.GridCellTableModel) -> Unit)?) :
         RecyclerView.Adapter<ReservationAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +22,8 @@ class ReservationAdapter(private val mDataItems: List<TableEntity>,
         holder.mItem = mDataItems[position]
         holder.mItem?.let { item ->
 
-            holder.mImageButton.isEnabled = item.available
+            holder.mImageButton.isEnabled = item.mTableEntity.available
+            holder.mImageButton.isSelected = item.mSelected
             if (holder.mImageButton.isEnabled) {
                 holder.mImageButton.alpha = 1.0F
             } else {
@@ -32,7 +32,6 @@ class ReservationAdapter(private val mDataItems: List<TableEntity>,
 
             holder.mImageButton.setOnClickListener({
                 mListener?.invoke(item)
-                holder.mImageButton.isSelected = !holder.mImageButton.isSelected
             })
         }
     }
@@ -41,8 +40,14 @@ class ReservationAdapter(private val mDataItems: List<TableEntity>,
         return mDataItems.size
     }
 
+    fun updateTable(tableItem: ReservationContract.GridCellTableModel) {
+        notifyItemChanged(mDataItems.indexOfFirst {
+            it.mTableEntity.tableNumber == tableItem.mTableEntity.tableNumber
+        })
+    }
+
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mImageButton: ImageButton = mView.findViewById(R.id.imageButton)
-        var mItem: TableEntity? = null
+        var mItem: ReservationContract.GridCellTableModel? = null
     }
 }

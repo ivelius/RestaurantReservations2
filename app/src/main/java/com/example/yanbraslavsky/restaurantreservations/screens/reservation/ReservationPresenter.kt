@@ -1,6 +1,6 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
-import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
 import javax.inject.Inject
 
@@ -8,7 +8,8 @@ import javax.inject.Inject
 open class ReservationPresenter @Inject constructor(private val mReservationUseCase: ReservationUseCase)
     : BasePresenter<ReservationContract.View>(), ReservationContract.Presenter {
 
-    private var mData: List<TableEntity>? = null
+    private var mData: List<ReservationContract.GridCellTableModel>? = null
+    private var mCustomer: CustomerEntity? = null
 
     override fun bind(view: ReservationContract.View) {
         super.bind(view)
@@ -23,7 +24,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
     }
 
 
-    private fun showData(data: List<TableEntity>) {
+    private fun showData(data: List<ReservationContract.GridCellTableModel>) {
         mBoundView?.showTables(data)
     }
 
@@ -31,6 +32,14 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
         mBoundView?.showLoading()
         mDisposablesBag.add(
                 mReservationUseCase.getRemoteTablesList()
+                        //we transform the entities by adding
+                        //the selection representation and wrapping into GridCellTableModel
+                        .map {
+                            return@map it.map {
+                                val selected = mCustomer?.customerId == it.reservedByCustomerId
+                                return@map ReservationContract.GridCellTableModel(it, selected)
+                            }
+                        }
                         .doFinally({ mBoundView?.stopLoading() })
                         .subscribe(
                                 { result ->
@@ -48,10 +57,35 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
         )
     }
 
-    override fun onTableItemClick(tableItem: TableEntity) {
-        mBoundView?.showMessage("clicked")
+    override fun onTableItemClick(tableItem: ReservationContract.GridCellTableModel) {
+        //we update the selection status in the collection of tables
+        //and assigning to the selection the userID that reserved the table
+        mData?.find { tableItem.mTableEntity.tableNumber == it.mTableEntity.tableNumber }?.let {
+            it.mSelected = !it.mSelected
+            mBoundView?.updateTable(it)
+        }
     }
 
+    override fun unbind() {
+        super.unbind()
+        // Now when user is finished with the selection
+        // we can update the database
+        mData?.let {
+            it.map {
+                //we want to update the state of this table
+                //and mark it as reserved for current customer
+                if (it.mSelected) {
+                    it.mTableEntity.reservedByCustomerId = mCustomer?.customerId
+                    mReservationUseCase.updateTable(it.mTableEntity)
+                }
+                return@map it.mTableEntity
+            }
+        }
+    }
+
+    override fun setCustomer(customer: CustomerEntity) {
+        mCustomer = customer
+    }
 
     private fun wrapErrorMessage(error: Throwable) = error.message ?: "Something is wrong :("
 }

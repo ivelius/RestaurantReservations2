@@ -33,22 +33,38 @@ class ReservationView : BaseView(), ReservationContract.View {
         setContentView(R.layout.activity_table_selection)
         initRecyclerView()
 
+        val customer = intent.getParcelableExtra<CustomerEntity>(CUSTOMER_BUNDLE_EXTRA_KEY)
+
         App.appComponent.inject(this)
+        customer?.let {
+            mPresenter.setCustomer(it)
+        }
+
         mPresenter.bind(this)
     }
 
     private fun initRecyclerView() {
         //TODO : Span count to be calculated depending on the view size
         recyclerView?.let {
-            val gridLayoutManager = GridLayoutManager(it.context,8)
+            val gridLayoutManager = GridLayoutManager(it.context, 8)
             it.layoutManager = gridLayoutManager
         }
     }
 
 
-    override fun showTables(data: List<TableEntity>) {
+    override fun showTables(data: List<ReservationContract.GridCellTableModel>) {
         recyclerView?.adapter = ReservationAdapter(data, {
             mPresenter.onTableItemClick(it)
         })
+    }
+
+    override fun updateTable(tableItem: ReservationContract.GridCellTableModel) {
+        val adapter = recyclerView?.adapter as? ReservationAdapter
+        adapter?.updateTable(tableItem)
+    }
+
+    override fun onDestroy() {
+        mPresenter.unbind()
+        super.onDestroy()
     }
 }
