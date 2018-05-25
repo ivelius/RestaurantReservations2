@@ -2,12 +2,17 @@ package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.mvp.BaseView
+import javax.inject.Inject
 
-class ReservationView : AppCompatActivity() {
+class ReservationView : BaseView(), ReservationContract.View {
+
+    @Inject
+    lateinit var mPresenter: ReservationContract.Presenter
 
     companion object {
 
@@ -23,5 +28,13 @@ class ReservationView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_table_selection)
+
+        App.appComponent.inject(this)
+        mPresenter.bind(this)
+    }
+
+
+    override fun showTables(data: List<Boolean>) {
+        // TODO : shit goes here  ...
     }
 }
