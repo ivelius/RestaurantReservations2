@@ -1,14 +1,14 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
-import com.example.yanbraslavsky.restaurantreservations.usecases.ReservationUseCase
 import javax.inject.Inject
 
 
 open class ReservationPresenter @Inject constructor(private val mReservationUseCase: ReservationUseCase)
     : BasePresenter<ReservationContract.View>(), ReservationContract.Presenter {
 
-    private var mData: List<Boolean>? = null
+    private var mData: List<TableEntity>? = null
 
     override fun bind(view: ReservationContract.View) {
         super.bind(view)
@@ -23,7 +23,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
     }
 
 
-    private fun showData(data: List<Boolean>) {
+    private fun showData(data: List<TableEntity>) {
         mBoundView?.showTables(data)
     }
 
@@ -48,7 +48,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
         )
     }
 
-    override fun onTableItemClick(tableItem: Boolean) {
+    override fun onTableItemClick(tableItem: TableEntity) {
         mBoundView?.showMessage("clicked")
     }
 

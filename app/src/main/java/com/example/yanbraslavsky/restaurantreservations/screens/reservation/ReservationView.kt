@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseView
 import kotlinx.android.synthetic.main.activity_customer_selection.*
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class ReservationView : BaseView(), ReservationContract.View {
     }
 
 
-    override fun showTables(data: List<Boolean>) {
+    override fun showTables(data: List<TableEntity>) {
         recyclerView?.adapter = ReservationAdapter(data, {
             mPresenter.onTableItemClick(it)
         })

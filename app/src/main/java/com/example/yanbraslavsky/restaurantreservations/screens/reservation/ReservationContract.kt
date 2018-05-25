@@ -1,5 +1,6 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseContract
 
 
@@ -10,7 +11,7 @@ object ReservationContract {
      * Presenter -> View
      */
     interface View : BaseContract.View {
-        fun showTables(data: List<Boolean>)
+        fun showTables(data: List<TableEntity>)
     }
 
     /**
@@ -18,6 +19,6 @@ object ReservationContract {
      * View -> Presenter
      */
     interface Presenter : BaseContract.Presenter<View> {
-        fun onTableItemClick(tableItem: Boolean)
+        fun onTableItemClick(tableItem: TableEntity)
     }
 }

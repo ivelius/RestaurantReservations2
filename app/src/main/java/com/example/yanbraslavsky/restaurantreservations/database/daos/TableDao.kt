@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface TableDao {
 
     @Query("SELECT * FROM TableEntity")
-    fun getAllTables(): Single<List<TableEntity>>
+    fun getTables(): Single<List<TableEntity>>
 
     @Insert
     fun insert(table: TableEntity)

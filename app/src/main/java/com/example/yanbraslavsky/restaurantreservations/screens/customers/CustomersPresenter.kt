@@ -1,9 +1,7 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
-import com.example.yanbraslavsky.restaurantreservations.usecases.CustomersUseCase
 import javax.inject.Inject
 
 

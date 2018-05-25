@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class TableEntity(
         @PrimaryKey(autoGenerate = true)
         val uid: Long,
-        val reserved: Boolean,
+        val available: Boolean,
 
         //It is easier to track tables by their serial numbers
         //in this case the serial number of the table corresponds to its

@@ -12,8 +12,8 @@ import com.example.yanbraslavsky.restaurantreservations.screens.main.MainPresent
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationPresenter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCaseImpl
-import com.example.yanbraslavsky.restaurantreservations.usecases.CustomersUseCase
-import com.example.yanbraslavsky.restaurantreservations.usecases.ReservationUseCase
+import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
+import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -39,8 +39,8 @@ open class AppModule(private val mApp: App) {
     }
 
     @Provides
-    open fun provideReservationUseCase(apiService: RestaurantService): ReservationUseCase {
-        return ReservationUseCaseImpl(apiService)
+    open fun provideReservationUseCase(apiService: RestaurantService, database: RestarauntDatabase): ReservationUseCase {
+        return ReservationUseCaseImpl(apiService, database)
     }
 
 

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import com.example.yanbraslavsky.restaurantreservations.R
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 
 
-class ReservationAdapter(private val mDataItems: List<Boolean>,
-                         private val mListener: ((Boolean) -> Unit)?) :
+class ReservationAdapter(private val mDataItems: List<TableEntity>,
+                         private val mListener: ((TableEntity) -> Unit)?) :
         RecyclerView.Adapter<ReservationAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +23,7 @@ class ReservationAdapter(private val mDataItems: List<Boolean>,
         holder.mItem = mDataItems[position]
         holder.mItem?.let { item ->
 
-            holder.mImageButton.isEnabled = item
+            holder.mImageButton.isEnabled = item.available
             if (holder.mImageButton.isEnabled) {
                 holder.mImageButton.alpha = 1.0F
             } else {
@@ -43,6 +43,6 @@ class ReservationAdapter(private val mDataItems: List<Boolean>,
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mImageButton: ImageButton = mView.findViewById(R.id.imageButton)
-        var mItem: Boolean? = null
+        var mItem: TableEntity? = null
     }
 }
