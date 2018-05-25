@@ -18,4 +18,7 @@ interface TableDao {
 
     @Update
     fun update(table: TableEntity)
+
+    @Query("DELETE FROM TableEntity")
+    fun deleteTables()
 }

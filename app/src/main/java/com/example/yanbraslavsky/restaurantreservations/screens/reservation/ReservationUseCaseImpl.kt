@@ -1,17 +1,22 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.example.yanbraslavsky.restaurantreservations.App
+import com.example.yanbraslavsky.restaurantreservations.BuildConfig
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
-import com.example.yanbraslavsky.restaurantreservations.database.RestarauntDatabase
+import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
+import com.example.yanbraslavsky.restaurantreservations.workscheduling.TableFreeWorker
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.time.Duration
 import javax.inject.Inject
 
 class ReservationUseCaseImpl
 @Inject constructor(private val mApiService: RestaurantService,
-                    private val mRestaurantDatabase: RestarauntDatabase) : ReservationUseCase {
+                    private val mRestaurantDatabase: RestaurantDatabase) : ReservationUseCase {
 
     init {
         App.appComponent.inject(this)
@@ -35,11 +40,26 @@ class ReservationUseCaseImpl
                                         mRestaurantDatabase.tableDao().insert(table)
                                         return@map table
                                     }
+
+
                                 }
                     }
                 }
+                .doOnSuccess({
+                    //we schedule a periodic cleanup , once we have the table data
+                    scheduleCleanup()
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun scheduleCleanup() {
+        // using the fancy brand new WorkManager ()
+        // https://developer.android.com/topic/libraries/architecture/workmanager
+        // I am still not sure whether this thing is reliable , but google claims it is ...
+        WorkManager.getInstance()
+                .enqueue(PeriodicWorkRequest.Builder(TableFreeWorker::class.java,
+                        Duration.ofMinutes(BuildConfig.TABLE_REFRESH_INTERVAL_MINUTES)).build())
     }
 
     override fun updateTable(table: TableEntity): Single<TableEntity> {
