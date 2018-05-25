@@ -14,6 +14,11 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
     override fun bind(view: ReservationContract.View) {
         super.bind(view)
 
+        mCustomer?.let {
+            //FIXME : provide strings throuh injected localization provider
+            mBoundView?.changeTitle("Reserve table for ${it.customerFirstName} ${it.customerLastName}")
+        }
+
         //if data already exists we show it without fetching
         mData?.let {
             showData(it)
