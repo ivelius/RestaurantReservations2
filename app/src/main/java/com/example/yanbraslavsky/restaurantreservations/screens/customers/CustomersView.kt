@@ -7,7 +7,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.R
-import com.example.yanbraslavsky.restaurantreservations.activities.ReservationView
+import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseView
 import kotlinx.android.synthetic.main.activity_customer_selection.*

@@ -2,7 +2,6 @@ package com.example.yanbraslavsky.restaurantreservations.api
 
 import com.example.yanbraslavsky.restaurantreservations.BuildConfig
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.TableModel
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +16,7 @@ interface RestarauntService {
     fun getCustomers(): Observable<List<CustomerModel>>
 
     @GET("/quandoo-assessment/table-map.json")
-    fun getTables(): Observable<List<TableModel>>
+    fun getTables(): Observable<List<Boolean>>
 
     companion object {
 

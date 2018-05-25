@@ -1,17 +1,16 @@
-package com.example.yanbraslavsky.restaurantreservations.screens.customers
+package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
-import com.example.yanbraslavsky.restaurantreservations.usecases.CustomersUseCase
+import com.example.yanbraslavsky.restaurantreservations.usecases.ReservationUseCase
 import javax.inject.Inject
 
 
-open class CustomersPresenter @Inject constructor(private val mCustomersUseCase: CustomersUseCase)
-    : BasePresenter<CustomersContract.View>(), CustomersContract.Presenter {
+open class ReservationPresenter @Inject constructor(private val mReservationUseCase: ReservationUseCase)
+    : BasePresenter<ReservationContract.View>(), ReservationContract.Presenter {
 
-    private var mData: List<CustomerModel>? = null
+    private var mData: List<Boolean>? = null
 
-    override fun bind(view: CustomersContract.View) {
+    override fun bind(view: ReservationContract.View) {
         super.bind(view)
 
         //if data already exists we show it without fetching
@@ -24,14 +23,14 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
     }
 
 
-    private fun showData(data: List<CustomerModel>) {
-        mBoundView?.showCustomers(data)
+    private fun showData(data: List<Boolean>) {
+        mBoundView?.showTables(data)
     }
 
     private fun fetchData() {
         mBoundView?.showLoading()
         mDisposablesBag.add(
-                mCustomersUseCase.getRemoteCustomersList()
+                mReservationUseCase.getRemoteTablesList()
                         .doFinally({ mBoundView?.stopLoading() })
                         .subscribe(
                                 { result ->
@@ -49,8 +48,8 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
         )
     }
 
-    override fun onItemClicked(customerModel: CustomerModel) {
-        mBoundView?.openReservationScreenForCustomer(customerModel)
+    override fun onTableItemClick(tableItem: Boolean) {
+        mBoundView?.showMessage("clicked")
     }
 
 

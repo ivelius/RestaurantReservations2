@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations.usecases.impl
+package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.api.RestarauntService
