@@ -1,6 +1,11 @@
 # RestaurantReservations
 This little reservations management app is a tiny POC for tables management in a typical restaraunt.
 
+![](https://github.com/ivelius/RestaurantReservations2/blob/master/screenshots/device-2018-05-25-204318.png?raw=true)
+
+![](https://github.com/ivelius/RestaurantReservations2/blob/master/screenshots/device-2018-05-25-204431.png?raw=true)
+
+
 ## The use case
 First time when you start the app , you should be connected to the internet. As soon as you going through all your screens at least once , data is being cached and managed in the local data base.
 As long as there are no real APIs for tables and users management , I assumed that downloading the data only once will suffice. Hence the app can be used completey offline once the customers and table data downloaded at least once.
