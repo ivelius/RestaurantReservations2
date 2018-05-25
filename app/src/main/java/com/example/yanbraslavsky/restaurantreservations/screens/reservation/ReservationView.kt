@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations.activities
+package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
 import android.content.Context
 import android.content.Intent
@@ -10,8 +10,13 @@ import com.example.yanbraslavsky.restaurantreservations.api.models.responses.Cus
 class ReservationView : AppCompatActivity() {
 
     companion object {
+
+        private const val CUSTOMER_BUNDLE_EXTRA_KEY = "customer_bundle_extra_key"
+
         fun open(fromContext: Context, withCustomerModel: CustomerModel) {
-            fromContext.startActivity(Intent(fromContext, ReservationView::class.java))
+            val intent = Intent(fromContext, ReservationView::class.java)
+            intent.putExtra(CUSTOMER_BUNDLE_EXTRA_KEY, withCustomerModel)
+            fromContext.startActivity(intent)
         }
     }
 

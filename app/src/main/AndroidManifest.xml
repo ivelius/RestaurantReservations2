@@ -25,7 +25,7 @@
             android:name=".screens.customers.CustomersView"
             android:label="@string/customers_screen_title" />
         <activity
-            android:name=".activities.ReservationView"
+            android:name=".screens.reservation.ReservationView"
             android:label="@string/reservation_screen_title" />
     </application>
 

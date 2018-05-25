@@ -1,11 +1,8 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
-import com.example.yanbraslavsky.restaurantreservations.api.RestarauntService
 import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
 import com.example.yanbraslavsky.restaurantreservations.usecases.CustomersUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
