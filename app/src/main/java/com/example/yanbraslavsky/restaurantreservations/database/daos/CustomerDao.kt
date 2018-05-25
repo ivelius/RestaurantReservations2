@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface CustomerDao {
 
     @Query("SELECT * FROM CustomerEntity")
-    fun getAllPeople(): Single<List<CustomerEntity>>
+    fun getCustomers(): Single<List<CustomerEntity>>
 
     @Insert
     fun insert(customer: CustomerEntity)

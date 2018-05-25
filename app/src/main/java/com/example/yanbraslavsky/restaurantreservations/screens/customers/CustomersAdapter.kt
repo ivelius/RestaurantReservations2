@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.yanbraslavsky.restaurantreservations.R
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 
 
-class CustomersAdapter(private val mDataItems: List<CustomerModel>,
-                       private val mListener: ((CustomerModel) -> Unit)?) :
+class CustomersAdapter(private val mDataItems: List<CustomerEntity>,
+                       private val mListener: ((CustomerEntity) -> Unit)?) :
         RecyclerView.Adapter<CustomersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,6 +39,6 @@ class CustomersAdapter(private val mDataItems: List<CustomerModel>,
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mFirstName: TextView = mView.findViewById(R.id.firstName)
         val mLastName: TextView = mView.findViewById(R.id.lastName)
-        var mItem: CustomerModel? = null
+        var mItem: CustomerEntity? = null
     }
 }

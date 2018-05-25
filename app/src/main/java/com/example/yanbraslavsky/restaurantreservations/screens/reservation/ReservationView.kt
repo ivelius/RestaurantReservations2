@@ -3,14 +3,11 @@ package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.R
-import com.example.yanbraslavsky.restaurantreservations.api.models.responses.CustomerModel
+import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BaseView
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersAdapter
 import kotlinx.android.synthetic.main.activity_customer_selection.*
 import javax.inject.Inject
 
@@ -23,9 +20,9 @@ class ReservationView : BaseView(), ReservationContract.View {
 
         private const val CUSTOMER_BUNDLE_EXTRA_KEY = "customer_bundle_extra_key"
 
-        fun open(fromContext: Context, withCustomerModel: CustomerModel) {
+        fun open(fromContext: Context, withCustomer: CustomerEntity) {
             val intent = Intent(fromContext, ReservationView::class.java)
-            intent.putExtra(CUSTOMER_BUNDLE_EXTRA_KEY, withCustomerModel)
+            intent.putExtra(CUSTOMER_BUNDLE_EXTRA_KEY, withCustomer)
             fromContext.startActivity(intent)
         }
     }

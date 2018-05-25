@@ -34,8 +34,8 @@ open class AppModule(private val mApp: App) {
 
     //Use Cases
     @Provides
-    open fun provideCustomersUseCase(apiService: RestaurantService): CustomersUseCase {
-        return CustomersUseCaseImpl(apiService)
+    open fun provideCustomersUseCase(apiService: RestaurantService, database: RestarauntDatabase): CustomersUseCase {
+        return CustomersUseCaseImpl(apiService, database)
     }
 
     @Provides
