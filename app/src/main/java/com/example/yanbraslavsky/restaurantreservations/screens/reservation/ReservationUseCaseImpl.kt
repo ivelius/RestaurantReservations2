@@ -30,6 +30,10 @@ class ReservationUseCaseImpl
                         return@flatMap Single.just(it) else {
                         //no data in database , load from server
                         return@flatMap mApiService.getTables()
+                                .doOnSuccess({
+                                    //we schedule a periodic cleanup , once we have the table data
+                                    scheduleCleanup()
+                                })
                                 .map {
 
                                     var index = 0
@@ -40,15 +44,10 @@ class ReservationUseCaseImpl
                                         mRestaurantDatabase.tableDao().insert(table)
                                         return@map table
                                     }
-
-
                                 }
                     }
                 }
-                .doOnSuccess({
-                    //we schedule a periodic cleanup , once we have the table data
-                    scheduleCleanup()
-                })
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
