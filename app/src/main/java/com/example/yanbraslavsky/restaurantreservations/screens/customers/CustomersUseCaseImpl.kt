@@ -2,7 +2,7 @@ package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
-import com.example.yanbraslavsky.restaurantreservations.database.RestarauntDatabase
+import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class CustomersUseCaseImpl
 @Inject constructor(private val mApiService: RestaurantService,
-                    private val mRestaurantDatabase: RestarauntDatabase) : CustomersUseCase {
+                    private val mRestaurantDatabase: RestaurantDatabase) : CustomersUseCase {
 
     init {
         App.appComponent.inject(this)

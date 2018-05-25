@@ -8,7 +8,7 @@ import com.example.yanbraslavsky.restaurantreservations.database.enteties.Custom
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 
 @Database(entities = arrayOf(CustomerEntity::class, TableEntity::class), version = 1)
-abstract class RestarauntDatabase : RoomDatabase() {
+abstract class RestaurantDatabase : RoomDatabase() {
 
     abstract fun customerDao(): CustomerDao
     abstract fun tableDao(): TableDao

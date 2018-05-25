@@ -3,7 +3,7 @@ package com.example.yanbraslavsky.restaurantreservations.di
 import android.arch.persistence.room.Room
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
-import com.example.yanbraslavsky.restaurantreservations.database.RestarauntDatabase
+import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersPresenter
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCaseImpl
@@ -28,18 +28,18 @@ open class AppModule(private val mApp: App) {
 
     @Provides
     @Singleton
-    open fun provideDatabase(): RestarauntDatabase {
-        return Room.databaseBuilder(mApp, RestarauntDatabase::class.java, "restaraunt-db").build()
+    open fun provideDatabase(): RestaurantDatabase {
+        return Room.databaseBuilder(mApp, RestaurantDatabase::class.java, "restaraunt-db").build()
     }
 
     //Use Cases
     @Provides
-    open fun provideCustomersUseCase(apiService: RestaurantService, database: RestarauntDatabase): CustomersUseCase {
+    open fun provideCustomersUseCase(apiService: RestaurantService, database: RestaurantDatabase): CustomersUseCase {
         return CustomersUseCaseImpl(apiService, database)
     }
 
     @Provides
-    open fun provideReservationUseCase(apiService: RestaurantService, database: RestarauntDatabase): ReservationUseCase {
+    open fun provideReservationUseCase(apiService: RestaurantService, database: RestaurantDatabase): ReservationUseCase {
         return ReservationUseCaseImpl(apiService, database)
     }
 
