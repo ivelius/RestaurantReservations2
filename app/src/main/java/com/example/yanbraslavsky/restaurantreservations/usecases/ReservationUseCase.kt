@@ -1,9 +1,9 @@
 package com.example.yanbraslavsky.restaurantreservations.usecases
 
-import io.reactivex.Observable
+import io.reactivex.Single
 
 
 interface ReservationUseCase {
 
-    fun getRemoteTablesList(): Observable<List<Boolean>>
+    fun getRemoteTablesList(): Single<List<Boolean>>
 }

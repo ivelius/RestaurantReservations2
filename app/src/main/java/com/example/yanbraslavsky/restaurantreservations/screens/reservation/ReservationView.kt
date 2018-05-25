@@ -44,9 +44,6 @@ class ReservationView : BaseView(), ReservationContract.View {
         recyclerView?.let {
             val gridLayoutManager = GridLayoutManager(it.context,8)
             it.layoutManager = gridLayoutManager
-            val dividerItemDecoration = DividerItemDecoration(it.context,
-                    gridLayoutManager.orientation)
-            it.addItemDecoration(dividerItemDecoration)
         }
     }
 
