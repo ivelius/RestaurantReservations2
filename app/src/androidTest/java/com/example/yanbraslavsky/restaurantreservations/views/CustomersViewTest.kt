@@ -6,6 +6,7 @@ import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
@@ -17,6 +18,8 @@ import com.example.yanbraslavsky.restaurantreservations.database.enteties.Custom
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersAdapter
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersView
+import com.example.yanbraslavsky.restaurantreservations.screens.main.MainView
+import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
 import junit.framework.Assert.assertTrue
 import kotlinx.android.synthetic.main.activity_table_selection.*
 import org.hamcrest.CoreMatchers.allOf
@@ -127,8 +130,9 @@ class CustomersViewTest : BaseActivityTest() {
     @Test
     fun navigateToReservationsScreen_Test() {
         mActivityTestRule.activity.openReservationScreenForCustomer(mFakeCustomers.first())
+
         //make sure customers activity is launched
-        Intents.intended(IntentMatchers.hasComponent(CustomersView::class.java.name))
+        intended(IntentMatchers.hasComponent(ReservationView::class.java.name))
     }
 
     private fun createListOfFakeCustomers(): List<CustomerEntity> {
