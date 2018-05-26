@@ -89,6 +89,4 @@ class MainViewTest : BaseActivityTest() {
         onView(withId(R.id.startBtn)).perform(click())
         Mockito.verify(mMainPresenter).startButtonClicked()
     }
-
-    private fun getString(@StringRes resId: Int) = mActivityTestRule.activity.getString(resId)
 }

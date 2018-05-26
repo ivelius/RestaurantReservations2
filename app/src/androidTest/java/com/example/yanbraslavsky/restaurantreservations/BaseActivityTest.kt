@@ -1,5 +1,6 @@
 package com.example.yanbraslavsky.restaurantreservations
 
+import android.support.annotation.StringRes
 import com.example.yanbraslavsky.restaurantreservations.di.DaggerAppComponent
 import com.example.yanbraslavsky.restaurantreservations.di.app.TestAppModule
 
@@ -22,4 +23,6 @@ abstract class BaseActivityTest {
     open fun tearDown() {
 
     }
+
+    internal fun getString(@StringRes resId: Int) = App.instance.getString(resId)
 }
