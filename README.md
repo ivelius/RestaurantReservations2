@@ -35,7 +35,7 @@ Even though I know it is hard to impress with this task solution , I am again hi
 But there are more , written in different languages and technologies ...
 
 ## Bonus task (search functionality)
-Due to time constraints I am not implementing this feature.  However if I would , I would start from something rather simple like this [stack overflow post describes](https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview). A few years back I have implemented my own search functionality completely from scratch using material design (when there was no support for material design yet). You can check it out in [Home24 application](https://play.google.com/store/apps/details?id=com.home24.android&hl=de) which is mostly written by me. Unfortunately I cannot share the code with you due to property reasons.
+Due to time constraints I am not implementing this feature.  However if I would , I would start from something rather simple like this [stack overflow post describes](https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview). A few years back I have implemented my own search functionality completely from scratch using material design (when there was no support for material design yet). You can check it out in [Home24 application](https://play.google.com/store/apps/details?id=com.home24.android&hl=de) which is mostly written by me. Unfortunately I cannot share the code with you due to legal reasons.
 
 
 ## UI
