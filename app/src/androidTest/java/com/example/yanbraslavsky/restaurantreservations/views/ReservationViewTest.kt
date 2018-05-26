@@ -2,6 +2,7 @@ package com.example.yanbraslavsky.restaurantreservations.views
 
 import android.content.Intent
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -82,6 +83,11 @@ class ReservationViewTest : BaseActivityTest() {
     }
 
     @Test
+    fun presenterSetCustomer_Test() {
+        Mockito.verify(mReservationPresenter).setCustomer(mFakeCustomer)
+    }
+
+    @Test
     fun changeTitle_Test() {
         val title = "fakeTitle"
         mActivityTestRule.activity.runOnUiThread({
@@ -97,13 +103,7 @@ class ReservationViewTest : BaseActivityTest() {
      */
     @Test
     fun showTables_Test() {
-        mActivityTestRule.activity.runOnUiThread({
-            mActivityTestRule.activity.showTables(mFakeTables)
-        })
-
-        // it takes a moment for view to redraw itself
-        // there are different ways to make this test , all are not pretty
-        wait()
+        populateWithTables()
 
         // Make sure total tables in the adapter equals to total data model tables
         val recyclerView = mActivityTestRule.activity.recyclerView
@@ -157,36 +157,44 @@ class ReservationViewTest : BaseActivityTest() {
                 ))))
     }
 
+
+
+    @Test
+    fun tableClick_Test() {
+        populateWithTables()
+
+        val availableTable = mFakeTables.first()
+        //Scroll to available table
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(availableTable)))
+
+        //click on the table
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(availableTable)))
+                .perform(click())
+
+        //make sure click is delegated to presenter
+        Mockito.verify(mReservationPresenter).onTableItemClick(availableTable)
+
+    }
+
     @Test
     fun updateTable_Test() {
 
         //TODO : find availible unselected table , make sure that it
+        val availableTable = mFakeTables.first()
+
+        //Scroll to available table
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(availableTable)))
+
+        //Make sure the image there is in the enabled state
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(availableTable)))
+                .check(matches(hasDescendant(allOf(
+                        withId(R.id.imageButton),
+                        isEnabled()
+                ))))
 
     }
-
-//    @Test
-//    fun customerClick_Test() {
-//        mActivityTestRule.activity.runOnUiThread({
-//            mActivityTestRule.activity.showCustomers(mTableCustomers)
-//        })
-//
-//        //it takes a moment for view to redraw itself
-//        //there are different ways to make this test , all are not pretty
-//        wait()
-//
-//        val selectedCustomer = mTableCustomers.last()
-//        val indexOfSelectedCustomer = mTableCustomers.indexOf(selectedCustomer)
-//
-//        //scroll to customer and click
-//        onView(withId(R.id.recyclerView))
-//                .perform(RecyclerViewActions.scrollToPosition<CustomersAdapter.ViewHolder>(indexOfSelectedCustomer))
-//        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<CustomersAdapter.ViewHolder>(indexOfSelectedCustomer, click()))
-//
-//        Mockito.verify(mReservationPresenter).onItemClicked(selectedCustomer)
-//
-//    }
-//
-
 
     private fun createFakeTablesList(): List<ReservationContract.GridCellTableModel> {
         val fakeData = ArrayList<ReservationContract.GridCellTableModel>()
@@ -211,5 +219,15 @@ class ReservationViewTest : BaseActivityTest() {
             fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, random.nextBoolean(), 0), false, false))
         }
         return fakeData
+    }
+
+    private fun populateWithTables() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showTables(mFakeTables)
+        })
+
+        // it takes a moment for view to redraw itself
+        // there are different ways to make this test , all are not pretty
+        wait()
     }
 }
