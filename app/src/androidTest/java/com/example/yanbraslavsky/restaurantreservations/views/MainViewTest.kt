@@ -3,18 +3,22 @@ package com.example.yanbraslavsky.restaurantreservations.views
 import android.content.Intent
 import android.support.annotation.StringRes
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
 import com.example.yanbraslavsky.restaurantreservations.R
+import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainView
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 
 
 /**
@@ -23,7 +27,9 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class MainViewTest {
+class MainViewTest : BaseActivityTest() {
+
+    private lateinit var mMainPresenter: MainContract.Presenter
 
     @Rule
     @JvmField
@@ -32,14 +38,23 @@ class MainViewTest {
                     false)
 
     @Before
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
+        //we use our mocked presenter to be injected into the view
+        //using dagger
+        mMainPresenter = Mockito.mock(MainContract.Presenter::class.java)
+        mTestAppModule.mMockedMainPresenter = mMainPresenter
+
         //launch activity using empty intent (no arguments needed for now ...)
         mActivityTestRule.launchActivity(Intent())
+
     }
 
     @After
-    fun tearDown() {
+    override fun tearDown() {
     }
+
 
     /**
      * Make sure all initial UI elements are placed on the screen , and visible
@@ -62,6 +77,17 @@ class MainViewTest {
         mActivityTestRule.activity.showCustomersScreen()
         //Make sure title of customers screen is displayed
         onView(withText(getString(R.string.customers_screen_title))).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun presenterBind_Test() {
+        Mockito.verify(mMainPresenter).bind(mActivityTestRule.activity)
+    }
+
+    @Test
+    fun presenterStartButtonClick_Test() {
+        onView(withId(R.id.startBtn)).perform(click())
+        Mockito.verify(mMainPresenter).startButtonClicked()
     }
 
     private fun getString(@StringRes resId: Int) = mActivityTestRule.activity.getString(resId)
