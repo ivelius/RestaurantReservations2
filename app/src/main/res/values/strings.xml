@@ -3,4 +3,5 @@
     <string name="start_screen_title">Start</string>
     <string name="customers_screen_title">Select Customer</string>
     <string name="reservation_screen_title">Reserve Table</string>
+    <string name="start">Start</string>
 </resources>

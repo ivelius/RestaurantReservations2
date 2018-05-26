@@ -18,6 +18,7 @@ class App : Application() {
 
     companion object {
         lateinit var appComponent: AppComponent
+        lateinit var instance: App
     }
 
     @Inject
@@ -25,6 +26,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         appComponent = DaggerAppComponent
                 .builder()
                 .appModule(AppModule(this))

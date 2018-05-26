@@ -19,7 +19,7 @@ class ReservationView : BaseView(), ReservationContract.View {
 
     companion object {
 
-        private const val CUSTOMER_BUNDLE_EXTRA_KEY = "customer_bundle_extra_key"
+        const val CUSTOMER_BUNDLE_EXTRA_KEY = "customer_bundle_extra_key"
 
         fun open(fromContext: Context, withCustomer: CustomerEntity) {
             val intent = Intent(fromContext, ReservationView::class.java)
