@@ -2,8 +2,11 @@ package com.example.yanbraslavsky.restaurantreservations.views
 
 import android.content.Intent
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
@@ -93,17 +96,40 @@ class CustomersViewTest : BaseActivityTest() {
         assertTrue(recyclerView.adapter.itemCount == mFakeCustomers.size)
 
     }
-//
-//    @Test
-//    fun presenterBind_Test() {
-//        Mockito.verify(mCustomersPresenter).bind(mActivityTestRule.activity)
-//    }
-//
-//    @Test
-//    fun presenterStartButtonClick_Test() {
-//        onView(withId(R.id.startBtn)).perform(click())
-//        Mockito.verify(mCustomersPresenter).startButtonClicked()
-//    }
+
+    @Test
+    fun customerClick_Test() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showCustomers(mFakeCustomers)
+        })
+
+        //it takes a moment for view to redraw itself
+        //there are different ways to make this test , all are not pretty
+        wait()
+
+        val selectedCustomer = mFakeCustomers.last()
+        val indexOfSelectedCustomer = mFakeCustomers.indexOf(selectedCustomer)
+
+        //scroll to customer and click
+        onView(withId(R.id.recyclerView))
+                .perform(RecyclerViewActions.scrollToPosition<CustomersAdapter.ViewHolder>(indexOfSelectedCustomer))
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<CustomersAdapter.ViewHolder>(indexOfSelectedCustomer, click()))
+
+        Mockito.verify(mCustomersPresenter).onItemClicked(selectedCustomer)
+
+    }
+
+    @Test
+    fun presenterBind_Test() {
+        Mockito.verify(mCustomersPresenter).bind(mActivityTestRule.activity)
+    }
+
+    @Test
+    fun navigateToReservationsScreen_Test() {
+        mActivityTestRule.activity.openReservationScreenForCustomer(mFakeCustomers.first())
+        //make sure customers activity is launched
+        Intents.intended(IntentMatchers.hasComponent(CustomersView::class.java.name))
+    }
 
     private fun createListOfFakeCustomers(): List<CustomerEntity> {
         val fakeData = ArrayList<CustomerEntity>()
