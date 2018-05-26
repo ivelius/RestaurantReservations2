@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations
+package com.example.yanbraslavsky.restaurantreservations.presenters
 
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
@@ -65,6 +65,9 @@ class ReservationsPresenterTest {
         //we simulate the table data click
         val simulateClickedItem = ReservationContract.GridCellTableModel(notReservedTable, false, false)
         mReservationPresenter.onTableItemClick(simulateClickedItem)
+
+        //TODO : Need to assert that the table is selected
+//        assert(simulateClickedItem.mSelected)
 
         //make sure we update the use case with the data change
         verify(mReservationUseCase).updateTable(notReservedTable)

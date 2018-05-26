@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations
+package com.example.yanbraslavsky.restaurantreservations.presenters
 
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainPresenter

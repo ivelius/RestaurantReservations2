@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations
+package com.example.yanbraslavsky.restaurantreservations.presenters
 
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
