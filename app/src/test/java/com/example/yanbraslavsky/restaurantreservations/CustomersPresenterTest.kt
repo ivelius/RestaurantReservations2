@@ -17,9 +17,7 @@ class CustomersPresenterTest {
     private lateinit var mCustomersPresenter: CustomersPresenter
     private lateinit var mCustomersView: CustomersContract.View
     private lateinit var mCustomersUseCase: CustomersUseCase
-    private val mFakeCustomers: List<CustomerEntity> by lazy {
-        createListOfFakeCustomers()
-    }
+    private val mFakeCustomers = createListOfFakeCustomers()
 
     @Before
     fun setUp() {
