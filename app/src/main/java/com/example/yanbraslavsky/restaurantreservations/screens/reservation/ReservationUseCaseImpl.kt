@@ -1,17 +1,12 @@
 package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import com.example.yanbraslavsky.restaurantreservations.App
-import com.example.yanbraslavsky.restaurantreservations.BuildConfig
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
 import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
-import com.example.yanbraslavsky.restaurantreservations.workscheduling.TableFreeWorker
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.time.Duration
 import javax.inject.Inject
 
 class ReservationUseCaseImpl
@@ -30,8 +25,7 @@ class ReservationUseCaseImpl
                         return@flatMap Single.just(it) else {
                         //no data in database , load from server
                         return@flatMap mApiService.getTables()
-                                .map {
-
+                                .doOnSuccess({
                                     var index = 0
                                     //when the data is loaded from server we store it
                                     //in the data base for future use
@@ -40,6 +34,8 @@ class ReservationUseCaseImpl
                                         mRestaurantDatabase.tableDao().insert(table)
                                         return@map table
                                     }
+                                }).flatMap {
+                                    return@flatMap mRestaurantDatabase.tableDao().getTables()
                                 }
                     }
                 }
