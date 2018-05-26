@@ -40,7 +40,7 @@ class ReservationViewTest : BaseActivityTest() {
 
     private lateinit var mReservationPresenter: ReservationContract.Presenter
     private val mFakeCustomer = CustomerEntity(0, "Uncle", "Bob", 1)
-    private val mFakeTables = createFakeTablesList()
+    private lateinit var mFakeTables: List<ReservationContract.GridCellTableModel>
 
     @Rule
     @JvmField
@@ -51,6 +51,11 @@ class ReservationViewTest : BaseActivityTest() {
     @Before
     override fun setup() {
         super.setup()
+
+        //we manipulate the data in some tests , hence we reinitialize the tables
+        //for each test
+        mFakeTables = createFakeTablesList()
+
         //we use our mocked presenter to be injected into the view using dagger
         mReservationPresenter = Mockito.mock(ReservationContract.Presenter::class.java)
         mTestAppModule.mMockedReservationsPresenter = mReservationPresenter
@@ -137,7 +142,8 @@ class ReservationViewTest : BaseActivityTest() {
         onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(availableTable)))
                 .check(matches(hasDescendant(allOf(
                         withId(R.id.imageButton),
-                        isEnabled()
+                        isEnabled(),
+                        not(isSelected())
                 ))))
 
         // find selected table and make sure it is selected by highlighted image
@@ -156,7 +162,6 @@ class ReservationViewTest : BaseActivityTest() {
                         isSelected()
                 ))))
     }
-
 
 
     @Test
@@ -179,21 +184,32 @@ class ReservationViewTest : BaseActivityTest() {
 
     @Test
     fun updateTable_Test() {
+        populateWithTables()
 
-        //TODO : find availible unselected table , make sure that it
-        val availableTable = mFakeTables.first()
+        // find available unselected table , make sure that it
+        val table = mFakeTables.first()
 
-        //Scroll to available table
+        //we already have test that ensures that this table in
+        //enabled and not selected state
+        //now lets update it
+        table.mSelected = true
+
+        //call update method on the view
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.updateTable(table)
+        })
+
+        //Scroll to the table
         onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
-                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(availableTable)))
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(table)))
 
-        //Make sure the image there is in the enabled state
-        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(availableTable)))
+        //Make sure the image there is in the enabled AND selected state
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(table)))
                 .check(matches(hasDescendant(allOf(
                         withId(R.id.imageButton),
-                        isEnabled()
+                        isEnabled(),
+                        isSelected()
                 ))))
-
     }
 
     private fun createFakeTablesList(): List<ReservationContract.GridCellTableModel> {
