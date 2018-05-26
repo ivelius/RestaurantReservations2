@@ -1,16 +1,18 @@
 package com.example.yanbraslavsky.restaurantreservations.views
 
 import android.content.Intent
-import android.support.annotation.StringRes
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.intent.Intents.intended
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
 import com.example.yanbraslavsky.restaurantreservations.R
+import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersView
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainView
 import org.junit.After
@@ -75,8 +77,8 @@ class MainViewTest : BaseActivityTest() {
     @Test
     fun navigateToCustomersScreen_Test() {
         mActivityTestRule.activity.showCustomersScreen()
-        //Make sure title of customers screen is displayed
-        onView(withText(getString(R.string.customers_screen_title))).check(matches(isDisplayed()))
+        //make sure customers activity is launched
+        intended(hasComponent(CustomersView::class.java.name))
     }
 
     @Test
