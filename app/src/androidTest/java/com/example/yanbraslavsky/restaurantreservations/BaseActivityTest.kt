@@ -25,8 +25,12 @@ abstract class BaseActivityTest {
     }
 
     open fun tearDown() {
-
+        Intents.release()
     }
 
     internal fun getString(@StringRes resId: Int) = App.instance.getString(resId)
+
+    fun wait(seconds: Int = 1) {
+        Thread.sleep(seconds * 1000L)
+    }
 }

@@ -55,6 +55,7 @@ class MainViewTest : BaseActivityTest() {
 
     @After
     override fun tearDown() {
+        super.tearDown()
     }
 
 
