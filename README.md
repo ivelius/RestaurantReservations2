@@ -10,7 +10,7 @@ This little reservations management app is a tiny POC for tables management in a
 First time when you start the app , you should be connected to the internet. As soon as you going through all your screens at least once , data is being cached and managed in the local data base.
 As long as there are no real APIs for tables and users management , I assumed that downloading the data only once will suffice. Hence the app can be used completey offline once the customers and table data downloaded at least once.
 
-You can reserve one or all free tables for a customer . Each customer can regret his reservation and unmark his reserved tables . By doing so the free tables will be availible for other customers .
+You can reserve one or all free tables for a customer . Each customer can regret his reservation and unmark his reserved tables. By doing so the free tables will be availible for other customers . Customers can also regret their choice later in time.
 
 Once every 15 minutes (or so , depending on OS ...) , all the reserved tables will be freed and availible for a new selection.
 
@@ -18,7 +18,7 @@ Once every 15 minutes (or so , depending on OS ...) , all the reserved tables wi
 My language of choice for this task was Kotlin . However there are plenty of other Android (and not ony ...) projects in my public repo that are written in Java  . I hightly recommend to check them out. 
 
 ## Architechture
-I went with MVP , since it is fair simple and quite powerful . The perfect balance between complex solution and lack of architecture at all. MVP has proven to suite most of my needs during the years o developement.
+I went with MVP , since it is fair simple and quite powerful . The perfect balance between complex solution and lack of architecture at all. MVP has proven to suite most of my needs during the years o developement. I have also added a little element of Clean Architecture which is a "Use Case" . Basically it is needed to add yet another layer of abstraction to the presenters . Alternativley in this task I could use a Repository pattern instead of UseCases ... 
 
 ## Constraints
 I am under sevire time pressure so I have to choose wisley what I should focus on. I am focusing on functionality and architecture. Trying to do some adequate testing without polishing every aspect of this task.
