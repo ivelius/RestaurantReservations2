@@ -3,6 +3,7 @@ package com.example.yanbraslavsky.restaurantreservations.views
 import android.content.Intent
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
@@ -11,8 +12,14 @@ import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
+import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationAdapter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
+import com.example.yanbraslavsky.restaurantreservations.utils.EspressoCustomMarchers.Companion.withRecyclerView
+import junit.framework.Assert.assertTrue
+import kotlinx.android.synthetic.main.activity_table_selection.*
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -47,8 +54,10 @@ class ReservationViewTest : BaseActivityTest() {
         mReservationPresenter = Mockito.mock(ReservationContract.Presenter::class.java)
         mTestAppModule.mMockedReservationsPresenter = mReservationPresenter
 
-        //launch activity using empty intent (no arguments needed for now ...)
-        mActivityTestRule.launchActivity(Intent())
+        //launch activity using a fake customer in the intent
+        val intent = Intent()
+        intent.putExtra(ReservationView.CUSTOMER_BUNDLE_EXTRA_KEY, mFakeCustomer)
+        mActivityTestRule.launchActivity(intent)
     }
 
     @After
@@ -72,30 +81,89 @@ class ReservationViewTest : BaseActivityTest() {
         Mockito.verify(mReservationPresenter).bind(mActivityTestRule.activity)
     }
 
+    @Test
+    fun changeTitle_Test() {
+        val title = "fakeTitle"
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.changeTitle(title)
+        })
+        wait()
+        onView(withText(title)).check(matches(isDisplayed()))
+    }
 
-//    @Test
-//    fun showUserData_Test() {
-//        mActivityTestRule.activity.runOnUiThread({
-//            mActivityTestRule.activity.showCustomers(mTableCustomers)
-//        })
-//
-//        //it takes a moment for view to redraw itself
-//        //there are different ways to make this test , all are not pretty
-//        wait()
-//
-//        val selectedCustomer = mTableCustomers.last()
-//
-//        //Special position using RecyclerViewActions
-//        onView(withId(R.id.recyclerView))
-//                .perform(RecyclerViewActions.scrollToPosition<CustomersAdapter.ViewHolder>(mTableCustomers.indexOf(selectedCustomer)))
-//        onView(allOf(withId(R.id.firstName), withText(selectedCustomer.customerFirstName),
-//                        isDisplayed())).check(matches(withText(selectedCustomer.customerFirstName)))
-//
-//        val recyclerView = mActivityTestRule.activity.recyclerView
-//        assertTrue(recyclerView.adapter.itemCount == mTableCustomers.size)
-//
-//    }
-//
+
+    /**
+     * In this test we want to make sure that tables are displayed correctly
+     */
+    @Test
+    fun showTables_Test() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showTables(mFakeTables)
+        })
+
+        // it takes a moment for view to redraw itself
+        // there are different ways to make this test , all are not pretty
+        wait()
+
+        // Make sure total tables in the adapter equals to total data model tables
+        val recyclerView = mActivityTestRule.activity.recyclerView
+        assertTrue(recyclerView.adapter.itemCount == mFakeTables.size)
+
+        // find unavailable table and make sure it is in disabled state
+        // we put this table explicitly there
+        val unavailableTable = mFakeTables[2]
+
+        //Scroll to unavailable table
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(unavailableTable)))
+
+        //Make sure the image there is in the disabled state
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(unavailableTable)))
+                .check(matches(hasDescendant(allOf(
+                        withId(R.id.imageButton),
+                        not(isEnabled())
+                ))))
+
+
+        // find available table and make sure it is enabled state
+        // we put this table explicitly there
+        val availableTable = mFakeTables.first()
+
+        //Scroll to available table
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(availableTable)))
+
+        //Make sure the image there is in the enabled state
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(availableTable)))
+                .check(matches(hasDescendant(allOf(
+                        withId(R.id.imageButton),
+                        isEnabled()
+                ))))
+
+        // find selected table and make sure it is selected by highlighted image
+        // we put this table explicitly there
+        val selectedTable = mFakeTables[3]
+
+        //Scroll to available table
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions
+                .scrollToPosition<ReservationAdapter.ViewHolder>(mFakeTables.indexOf(selectedTable)))
+
+        //Make sure the image there is in the enabled AND selected state
+        onView(withRecyclerView(R.id.recyclerView).atPosition(mFakeTables.indexOf(selectedTable)))
+                .check(matches(hasDescendant(allOf(
+                        withId(R.id.imageButton),
+                        isEnabled(),
+                        isSelected()
+                ))))
+    }
+
+    @Test
+    fun updateTable_Test() {
+
+        //TODO : find availible unselected table , make sure that it
+
+    }
+
 //    @Test
 //    fun customerClick_Test() {
 //        mActivityTestRule.activity.runOnUiThread({
@@ -120,18 +188,27 @@ class ReservationViewTest : BaseActivityTest() {
 //
 
 
-    private fun createFakeTablesList(): List<TableEntity> {
-        val fakeData = ArrayList<TableEntity>()
+    private fun createFakeTablesList(): List<ReservationContract.GridCellTableModel> {
+        val fakeData = ArrayList<ReservationContract.GridCellTableModel>()
 
-        //first table is available
-        fakeData.add(TableEntity(0, true, 0))
+        //first table is available and not selected
+        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, true, 0), false, false))
+
         //second table is reserved by someone else
-        fakeData.add(TableEntity(0, false, 1, 89))
+        fakeData.add(ReservationContract.GridCellTableModel(
+                TableEntity(0, true, 0, 98), false, true))
+
+        //third table is unavailable
+        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, false, 0), false, false))
+
+
+        //fourth table is reserved by current fake customer and hence is selected
+        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, true, 0, mFakeCustomer.customerId), true, false))
 
         //rest of the tables are random
         val random = Random()
-        for (i in 2..10) {
-            fakeData.add(TableEntity(0, random.nextBoolean(), i, 5))
+        for (i in fakeData.size..10) {
+            fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, random.nextBoolean(), 0), false, false))
         }
         return fakeData
     }
