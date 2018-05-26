@@ -34,6 +34,9 @@ Even though I know it is hard to impress with this task solution , I am again hi
   
 But there are more , written in different languages and technologies ...
 
+## Bonus task (search functionality)
+Due to time constraints I am not implementing this feature.  However if I would , I would start from something rather simple like this [stack overflow post describes](https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview). A few years back I have implemented my own search functionality completley from scratch using material design (when there was no support for material design yet). You can check it out in [Home24 application](https://play.google.com/store/apps/details?id=com.home24.android&hl=de) which is mostly written by me. Unfortunatley I cannot share the code with you due to properiaty reasons.
+
 
 ## UI
 I've decided to keep things simple. Using a plain Material design provided by vanilla Android (which I find nice BTW). I don't use custom views nor Fragments for this task as they would rather add complexity than serve a real purpose.
@@ -50,8 +53,14 @@ I didn't abuse the project with unnecessary dependencies , I've only used what I
   - WorkScheduler (for reoccuring tasks)
 
 ## Tests
-Tests are important and there are many types of tests out there. My purpose is not to reach a full coverage but rather to give a taste of how I would approach testing in general.
-There are Unit tests for Presenters that run on host JVM , and some UI tests that run on device/emulator.
+Tests are important and there are many types of tests out there. I tried to test as much as I could given the time constraints . Obviously I did not cover all the edge cases nor the failure states . In reality writing tests is more time consuming than writing feature code , but it pays off in the end ...
+
+I have focused on 2 types of tests :
+
+  - BL/Presenters tests - which are implemented through plain Junit Testing and run very fast. I mostly test the buisness logic and interaction with views (which are abstracteed)
+  - Instrumentation Tests - utiizing Espresso framework to mainly test the views behaviour with mocked data and presenters.
+  
+In production apps I also put a lot of emphasize on End To End test (via user jorneys) and data integrity tests (basically I verify that my API calls return expected content).
 
 ## Installation
   - Clone the project and open it in Android Studio 3.+
