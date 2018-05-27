@@ -2,8 +2,8 @@ package com.example.yanbraslavsky.restaurantreservations.repositories.reservatio
 
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
 import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatabase
-import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
+import com.example.yanbraslavsky.restaurantreservations.repositories.BaseRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -11,19 +11,13 @@ import javax.inject.Inject
 
 class ReservationsRepositoryImpl
 @Inject constructor(private val mApiService: RestaurantService,
-                    private val mRestaurantDatabase: RestaurantDatabase) : ReservationsRepository {
-
+                    private val mRestaurantDatabase: RestaurantDatabase) : BaseRepository<List<TableEntity>>(), ReservationsRepository {
 
     override fun getTables(): Single<List<TableEntity>> {
-        //Try loading the data from local data base
-        return databaseObservable()
-                //if data from local data base cannot be loaded , try loading from api
-                .onErrorResumeNext(apiObservable())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        return super.getResource()
     }
 
-    private fun databaseObservable(): Single<List<TableEntity>> {
+    override fun databaseObservable(): Single<List<TableEntity>> {
         return Single.create {
             val list = mRestaurantDatabase.tableDao().getTables().blockingGet()
             if (list.isEmpty()) {
@@ -34,7 +28,7 @@ class ReservationsRepositoryImpl
         }
     }
 
-    private fun apiObservable(): Single<List<TableEntity>> {
+    override fun apiObservable(): Single<List<TableEntity>> {
         return Single.create {
             val list = mApiService.getTables().blockingGet()
             if (list == null || list.isEmpty()) {
