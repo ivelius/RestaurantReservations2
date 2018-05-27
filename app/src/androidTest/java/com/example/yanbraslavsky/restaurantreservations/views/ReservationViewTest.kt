@@ -9,14 +9,14 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
+import com.example.yanbraslavsky.restaurantreservations.BaseViewTest
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
-import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationAdapter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
 import com.example.yanbraslavsky.restaurantreservations.utils.EspressoCustomMarchers.Companion.withRecyclerView
+import com.example.yanbraslavsky.restaurantreservations.utils.StubsProvider
 import junit.framework.Assert.assertTrue
 import kotlinx.android.synthetic.main.activity_table_selection.*
 import org.hamcrest.CoreMatchers.allOf
@@ -27,7 +27,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import java.util.*
 
 
 /**
@@ -36,7 +35,7 @@ import java.util.*
  */
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class ReservationViewTest : BaseActivityTest() {
+class ReservationViewTest : BaseViewTest() {
 
     private lateinit var mReservationPresenter: ReservationContract.Presenter
     private val mFakeCustomer = CustomerEntity(0, "Uncle", "Bob", 1)
@@ -54,7 +53,7 @@ class ReservationViewTest : BaseActivityTest() {
 
         //we manipulate the data in some tests , hence we reinitialize the tables
         //for each test
-        mFakeTables = createFakeTablesList()
+        mFakeTables = StubsProvider.createFakeTablesList(mFakeCustomer.customerId)
 
         //we use our mocked presenter to be injected into the view using dagger
         mReservationPresenter = Mockito.mock(ReservationContract.Presenter::class.java)
@@ -80,6 +79,25 @@ class ReservationViewTest : BaseActivityTest() {
         // Check all views are displayed
         onView(withText(R.string.reservation_screen_title)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun loadingView_Test() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(isDisplayed()))
+
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.stopLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -210,31 +228,6 @@ class ReservationViewTest : BaseActivityTest() {
                         isEnabled(),
                         isSelected()
                 ))))
-    }
-
-    private fun createFakeTablesList(): List<ReservationContract.GridCellTableModel> {
-        val fakeData = ArrayList<ReservationContract.GridCellTableModel>()
-
-        //first table is available and not selected
-        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, true, 0), false, false))
-
-        //second table is reserved by someone else
-        fakeData.add(ReservationContract.GridCellTableModel(
-                TableEntity(0, true, 0, 98), false, true))
-
-        //third table is unavailable
-        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, false, 0), false, false))
-
-
-        //fourth table is reserved by current fake customer and hence is selected
-        fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, true, 0, mFakeCustomer.customerId), true, false))
-
-        //rest of the tables are random
-        val random = Random()
-        for (i in fakeData.size..10) {
-            fakeData.add(ReservationContract.GridCellTableModel(TableEntity(0, random.nextBoolean(), 0), false, false))
-        }
-        return fakeData
     }
 
     private fun populateWithTables() {

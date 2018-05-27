@@ -2,10 +2,11 @@ package com.example.yanbraslavsky.restaurantreservations.screens.reservation
 
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepository
 import javax.inject.Inject
 
 
-open class ReservationPresenter @Inject constructor(private val mReservationUseCase: ReservationUseCase)
+open class ReservationPresenter @Inject constructor(private val mReservationsRepository: ReservationsRepository)
     : BasePresenter<ReservationContract.View>(), ReservationContract.Presenter {
 
     private var mData: List<ReservationContract.GridCellTableModel>? = null
@@ -36,7 +37,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
     private fun fetchData() {
         mBoundView?.showLoading()
         mDisposablesBag.add(
-                mReservationUseCase.getRemoteTablesList()
+                mReservationsRepository.getTables()
                         //we transform the entities by adding
                         //the selection representation and wrapping into GridCellTableModel
                         .map {
@@ -72,7 +73,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationUseC
 
             //we update the database right after selection was changed
             it.mTableEntity.reservedByCustomerId = if (it.mSelected) mCustomer?.customerId else null
-            mReservationUseCase.updateTable(it.mTableEntity).subscribe()
+            mReservationsRepository.updateTable(it.mTableEntity).subscribe()
         }
     }
 

@@ -2,10 +2,11 @@ package com.example.yanbraslavsky.restaurantreservations.screens.customers
 
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.mvp.BasePresenter
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepository
 import javax.inject.Inject
 
 
-open class CustomersPresenter @Inject constructor(private val mCustomersUseCase: CustomersUseCase)
+open class CustomersPresenter @Inject constructor(private val mCustomersRepository: CustomersRepository)
     : BasePresenter<CustomersContract.View>(), CustomersContract.Presenter {
 
     private var mData: List<CustomerEntity>? = null
@@ -30,7 +31,7 @@ open class CustomersPresenter @Inject constructor(private val mCustomersUseCase:
     private fun fetchData() {
         mBoundView?.showLoading()
         mDisposablesBag.add(
-                mCustomersUseCase.getCustomers()
+                mCustomersRepository.getCustomers()
                         .doFinally({ mBoundView?.stopLoading() })
                         .subscribe(
                                 { result ->

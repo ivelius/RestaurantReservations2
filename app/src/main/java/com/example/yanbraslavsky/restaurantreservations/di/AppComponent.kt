@@ -1,10 +1,10 @@
 package com.example.yanbraslavsky.restaurantreservations.di
 
 import com.example.yanbraslavsky.restaurantreservations.App
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCaseImpl
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepositoryImpl
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersView
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainView
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCaseImpl
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepositoryImpl
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationView
 import com.example.yanbraslavsky.restaurantreservations.workscheduling.TableFreeWorker
 import dagger.Component
@@ -23,9 +23,9 @@ interface AppComponent {
     fun inject(reservationView: ReservationView)
 
     //Use cases
-    fun inject(customerUseCase: CustomersUseCaseImpl)
+    fun inject(customerUseCase: CustomersRepositoryImpl)
 
-    fun inject(reservationUseCaseImpl: ReservationUseCaseImpl)
+    fun inject(reservationUseCaseImpl: ReservationsRepositoryImpl)
 
     //Workers
     fun inject(tableFreeWorker: TableFreeWorker)
