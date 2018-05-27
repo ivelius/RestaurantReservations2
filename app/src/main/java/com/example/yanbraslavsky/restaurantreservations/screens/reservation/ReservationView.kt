@@ -45,6 +45,7 @@ class ReservationView : BaseView(), ReservationContract.View {
 
     private fun initRecyclerView() {
         //TODO : Span count to be calculated depending on the view size
+        //TODO : Ideally the grid cell item should be also dynamically calculated
         recyclerView?.let {
             val gridLayoutManager = GridLayoutManager(it.context, 8)
             it.layoutManager = gridLayoutManager

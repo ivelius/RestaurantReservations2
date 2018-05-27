@@ -10,7 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
+import com.example.yanbraslavsky.restaurantreservations.BaseViewTest
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersView
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
@@ -29,7 +29,7 @@ import org.mockito.Mockito
  */
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class MainViewTest : BaseActivityTest() {
+class MainViewTest : BaseViewTest() {
 
     private lateinit var mMainPresenter: MainContract.Presenter
 

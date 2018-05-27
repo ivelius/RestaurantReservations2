@@ -8,7 +8,7 @@ import com.example.yanbraslavsky.restaurantreservations.di.app.TestAppModule
 /**
  * Created by yan.braslavski on 11/15/17.
  */
-abstract class BaseActivityTest {
+abstract class BaseViewTest {
 
     protected val mTestAppModule = TestAppModule(App.instance)
 

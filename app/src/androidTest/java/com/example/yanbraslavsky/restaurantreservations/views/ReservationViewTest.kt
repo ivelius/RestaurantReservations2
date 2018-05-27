@@ -9,7 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.SmallTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.example.yanbraslavsky.restaurantreservations.BaseActivityTest
+import com.example.yanbraslavsky.restaurantreservations.BaseViewTest
 import com.example.yanbraslavsky.restaurantreservations.R
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
@@ -36,7 +36,7 @@ import java.util.*
  */
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class ReservationViewTest : BaseActivityTest() {
+class ReservationViewTest : BaseViewTest() {
 
     private lateinit var mReservationPresenter: ReservationContract.Presenter
     private val mFakeCustomer = CustomerEntity(0, "Uncle", "Bob", 1)
