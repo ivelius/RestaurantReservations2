@@ -18,7 +18,7 @@ Once every 15 minutes (or so , depending on OS ...) , all the reserved tables wi
 My language of choice for this task was Kotlin . However there are plenty of other Android (and not ony ...) projects in my public repo that are written in Java  . I highly recommend to check them out. 
 
 ## Architecture
-I went with MVP , since it is fair simple and quite powerful . The perfect balance between complex solution and lack of architecture at all. MVP has proven to suite most of my needs during the years of development. I have also added a little element of Clean Architecture which is a "Use Case" . Basically it is needed to add yet another layer of abstraction to the presenters . Alternatively in this task I could use a Repository pattern instead of Use Cases ... 
+I went with MVP , since it is fair simple and quite powerful . The perfect balance between complex solution and lack of architecture at all. MVP has proven to suite most of my needs during the years of development. I have also added an additional level of abstraction of data fetching by using repositories (following the repository design pattern) ... 
 
 ## Constraints
 I am under severe time pressure so I have to choose wisely what I should focus on. I am focusing on functionality and architecture. Trying to do some adequate testing without polishing every aspect of this task.
