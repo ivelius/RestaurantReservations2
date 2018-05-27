@@ -33,6 +33,12 @@ class CustomersPresenterTest {
     fun tearDown() {
     }
 
+
+    @Test
+    fun fail_Test() {
+        assert(false)
+    }
+
     @Test
     fun bindView_Test() {
         //make sure after we bind the view  , presenter will use the provided
