@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/ivelius/RestaurantReservations2/tree/master.svg?style=svg)](https://circleci.com/gh/ivelius/RestaurantReservations2/tree/master)
+
 # Restaurant Reservations
 This little reservations management app is a tiny POC for tables management in a typical restaurant.
 
@@ -36,6 +38,8 @@ But there are more , written in different languages and technologies ...
 
 ## Bonus task (search functionality)
 Due to time constraints I am not implementing this feature.  However if I would , I would start from something rather simple like this [stack overflow post describes](https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview). A few years back I have implemented my own search functionality completely from scratch using material design (when there was no support for material design yet). You can check it out in [Home24 application](https://play.google.com/store/apps/details?id=com.home24.android&hl=de) which is mostly written by me. Unfortunately I cannot share the code with you due to legal reasons.
+
+However ... as a bonus I have integrated a [Circle CI](https://circleci.com/) to this projects , and all the tests are run when changes are made.
 
 
 ## UI
