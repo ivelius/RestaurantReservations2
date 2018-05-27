@@ -34,6 +34,8 @@ class App : Application() {
 
         appComponent.inject(this)
 
+        //We want to schedule the recurring task once when
+        //user first launches the app
         if (mPreferences.isFirstLaunch()) {
             scheduleCleanup()
         }

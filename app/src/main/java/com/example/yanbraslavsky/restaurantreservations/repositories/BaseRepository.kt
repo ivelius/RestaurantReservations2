@@ -17,33 +17,4 @@ abstract class BaseRepository<T> {
 
     abstract fun databaseObservable(): Single<T>
     abstract fun apiObservable(): Single<T>
-
-//    private fun databaseObservable(): Single<T> {
-//        return Single.create {
-//            val list = mRestaurantDatabase.customerDao().getCustomers().blockingGet()
-//            if (list.isEmpty()) {
-//                it.onError(Error("Empty List"))
-//            } else {
-//                it.onSuccess(list)
-//            }
-//        }
-//    }
-
-//    private fun apiObservable(): Single<T> {
-//        return Single.create {
-//            val list = mApiService.getCustomers().blockingGet()
-//            if (list == null || list.isEmpty()) {
-//                it.onError(Error("Error"))
-//            } else {
-//
-//                list.forEach({
-//                    val customer = CustomerEntity(0, it.customerFirstName,
-//                            it.customerLastName, it.id)
-//                    mRestaurantDatabase.customerDao().insert(customer)
-//                })
-//
-//                it.onSuccess(mRestaurantDatabase.customerDao().getCustomers().blockingGet())
-//            }
-//        }
-//    }
 }

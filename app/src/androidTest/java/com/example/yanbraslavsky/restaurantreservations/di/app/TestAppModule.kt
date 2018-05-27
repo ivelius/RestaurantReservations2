@@ -22,7 +22,7 @@ class TestAppModule(mApp: App) : AppModule(mApp) {
 
     @Provides
     override fun provideMainPresenter(): MainContract.Presenter {
-        return mMockedMainPresenter ?: MainPresenter()
+        return mMockedMainPresenter ?: super.provideMainPresenter()
     }
 
     @Provides
