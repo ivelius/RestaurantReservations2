@@ -9,6 +9,7 @@ import com.example.yanbraslavsky.restaurantreservations.database.enteties.Custom
 import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepository
 import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepositoryImpl
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Single
 import org.junit.After
@@ -51,7 +52,6 @@ class CustomersRepositoryTest {
         //we want our database to return an empty list
         //when repository tries to call a data from it
         val dataBaseList: ArrayList<CustomerEntity> = ArrayList()
-//        dataBaseList.add(CustomerEntity(0,"sd","asd",9))
         Mockito.`when`(mCustomersDao.getCustomers())
                 .thenReturn(Single.just(dataBaseList))
 
@@ -71,5 +71,33 @@ class CustomersRepositoryTest {
 
         //since database list was empty , we expect api method to be called
         verify(mApiService).getCustomers()
+    }
+
+    @Test
+    fun notEmptyDatabase_Test() {
+
+        //we want our database to return a not empty list
+        //when repository tries to call a data from it
+        val dataBaseList: List<CustomerEntity> = listOf(
+                CustomerEntity(0, "sd", "asd", 9)
+        )
+        Mockito.`when`(mCustomersDao.getCustomers())
+                .thenReturn(Single.just(dataBaseList))
+
+
+        //lets make the api return an empty list
+        val apiList: List<CustomerModel> = ArrayList()
+        Mockito.`when`(mApiService.getCustomers())
+                .thenReturn(Single.just(apiList))
+
+        //call the method under test
+        mCustomersRepository.getCustomers().subscribe({}, {})
+
+
+        //make sure database and DAO methods are called
+        verify(mCustomersDao).getCustomers()
+
+        //make sure api method is NOT called
+        verify(mApiService, never()).getCustomers()
     }
 }
