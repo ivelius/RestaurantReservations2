@@ -3,11 +3,11 @@ package com.example.yanbraslavsky.restaurantreservations.di.app
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.di.AppModule
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepository
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainPresenter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCase
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepository
 import dagger.Module
 import dagger.Provides
 
@@ -26,13 +26,13 @@ class TestAppModule(mApp: App) : AppModule(mApp) {
     }
 
     @Provides
-    override fun provideCustomersPresenter(customersUseCase: CustomersUseCase): CustomersContract.Presenter {
-        return mMockedCustomerPresenter ?: super.provideCustomersPresenter(customersUseCase)
+    override fun provideCustomersPresenter(customersRepository: CustomersRepository): CustomersContract.Presenter {
+        return mMockedCustomerPresenter ?: super.provideCustomersPresenter(customersRepository)
     }
 
     @Provides
-    override fun provideReservationPresenter(reservationUseCase: ReservationUseCase): ReservationContract.Presenter {
-        return mMockedReservationsPresenter ?: super.provideReservationPresenter(reservationUseCase)
+    override fun provideReservationPresenter(reservationsRepository: ReservationsRepository): ReservationContract.Presenter {
+        return mMockedReservationsPresenter ?: super.provideReservationPresenter(reservationsRepository)
     }
 
 }

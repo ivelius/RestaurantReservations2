@@ -1,4 +1,4 @@
-package com.example.yanbraslavsky.restaurantreservations.screens.customers
+package com.example.yanbraslavsky.restaurantreservations.repositories.customers
 
 import com.example.yanbraslavsky.restaurantreservations.App
 import com.example.yanbraslavsky.restaurantreservations.api.RestaurantService
@@ -9,9 +9,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class CustomersUseCaseImpl
+class CustomersRepositoryImpl
 @Inject constructor(private val mApiService: RestaurantService,
-                    private val mRestaurantDatabase: RestaurantDatabase) : CustomersUseCase {
+                    private val mRestaurantDatabase: RestaurantDatabase) : CustomersRepository {
 
     init {
         App.appComponent.inject(this)

@@ -8,14 +8,14 @@ import com.example.yanbraslavsky.restaurantreservations.database.RestaurantDatab
 import com.example.yanbraslavsky.restaurantreservations.persistance.AppPreferences
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersPresenter
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCaseImpl
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepository
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepositoryImpl
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainContract
 import com.example.yanbraslavsky.restaurantreservations.screens.main.MainPresenter
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationPresenter
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCase
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCaseImpl
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepository
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -40,13 +40,13 @@ open class AppModule(private val mApp: App) {
 
     //Use Cases
     @Provides
-    open fun provideCustomersUseCase(apiService: RestaurantService, database: RestaurantDatabase): CustomersUseCase {
-        return CustomersUseCaseImpl(apiService, database)
+    open fun provideCustomersUseCase(apiService: RestaurantService, database: RestaurantDatabase): CustomersRepository {
+        return CustomersRepositoryImpl(apiService, database)
     }
 
     @Provides
-    open fun provideReservationUseCase(apiService: RestaurantService, database: RestaurantDatabase): ReservationUseCase {
-        return ReservationUseCaseImpl(apiService, database)
+    open fun provideReservationUseCase(apiService: RestaurantService, database: RestaurantDatabase): ReservationsRepository {
+        return ReservationsRepositoryImpl(apiService, database)
     }
 
 
@@ -57,13 +57,13 @@ open class AppModule(private val mApp: App) {
     }
 
     @Provides
-    open fun provideReservationPresenter(reservationUseCase: ReservationUseCase): ReservationContract.Presenter {
-        return ReservationPresenter(reservationUseCase)
+    open fun provideReservationPresenter(reservationsRepository: ReservationsRepository): ReservationContract.Presenter {
+        return ReservationPresenter(reservationsRepository)
     }
 
     @Provides
-    open fun provideCustomersPresenter(customersUseCase: CustomersUseCase): CustomersContract.Presenter {
-        return CustomersPresenter(customersUseCase)
+    open fun provideCustomersPresenter(customersRepository: CustomersRepository): CustomersContract.Presenter {
+        return CustomersPresenter(customersRepository)
     }
 
 }

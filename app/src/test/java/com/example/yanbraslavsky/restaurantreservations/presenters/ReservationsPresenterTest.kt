@@ -4,7 +4,7 @@ import com.example.yanbraslavsky.restaurantreservations.database.enteties.Custom
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.TableEntity
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationContract
 import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationPresenter
-import com.example.yanbraslavsky.restaurantreservations.screens.reservation.ReservationUseCase
+import com.example.yanbraslavsky.restaurantreservations.repositories.reservations.ReservationsRepository
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -19,20 +19,20 @@ class ReservationsPresenterTest {
 
     private lateinit var mReservationPresenter: ReservationPresenter
     private lateinit var mReservationView: ReservationContract.View
-    private lateinit var mReservationUseCase: ReservationUseCase
+    private lateinit var mReservationsRepository: ReservationsRepository
     private val mFakeCustomer = CustomerEntity(0, "Uncle", "Bob", 1)
     private val mFakeTables = createFakeTablesList()
 
     @Before
     fun setUp() {
-        mReservationUseCase = mock()
-        Mockito.`when`(mReservationUseCase.getRemoteTablesList())
+        mReservationsRepository = mock()
+        Mockito.`when`(mReservationsRepository.getRemoteTablesList())
                 .thenReturn(Single.just(mFakeTables))
 
-        Mockito.`when`(mReservationUseCase.updateTable(any()))
+        Mockito.`when`(mReservationsRepository.updateTable(any()))
                 .thenReturn(Single.just(mFakeTables.first()))
         mReservationView = mock()
-        mReservationPresenter = ReservationPresenter(mReservationUseCase)
+        mReservationPresenter = ReservationPresenter(mReservationsRepository)
     }
 
     @After
@@ -70,7 +70,7 @@ class ReservationsPresenterTest {
 //        assert(simulateClickedItem.mSelected)
 
         //make sure we update the use case with the data change
-        verify(mReservationUseCase).updateTable(notReservedTable)
+        verify(mReservationsRepository).updateTable(notReservedTable)
 
         //make sure presenter updates the view with data change
         verify(mReservationView).updateTable(any())

@@ -3,7 +3,7 @@ package com.example.yanbraslavsky.restaurantreservations.presenters
 import com.example.yanbraslavsky.restaurantreservations.database.enteties.CustomerEntity
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersContract
 import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersPresenter
-import com.example.yanbraslavsky.restaurantreservations.screens.customers.CustomersUseCase
+import com.example.yanbraslavsky.restaurantreservations.repositories.customers.CustomersRepository
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Single
@@ -16,17 +16,17 @@ class CustomersPresenterTest {
 
     private lateinit var mCustomersPresenter: CustomersPresenter
     private lateinit var mCustomersView: CustomersContract.View
-    private lateinit var mCustomersUseCase: CustomersUseCase
+    private lateinit var mCustomersRepository: CustomersRepository
     private val mFakeCustomers = createListOfFakeCustomers()
 
     @Before
     fun setUp() {
-        mCustomersUseCase = mock()
-        Mockito.`when`(mCustomersUseCase.getCustomers())
+        mCustomersRepository = mock()
+        Mockito.`when`(mCustomersRepository.getCustomers())
                 .thenReturn(Single.just(mFakeCustomers))
 
         mCustomersView = mock()
-        mCustomersPresenter = CustomersPresenter(mCustomersUseCase)
+        mCustomersPresenter = CustomersPresenter(mCustomersRepository)
     }
 
     @After
