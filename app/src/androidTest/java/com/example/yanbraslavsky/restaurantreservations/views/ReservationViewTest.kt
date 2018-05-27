@@ -83,6 +83,25 @@ class ReservationViewTest : BaseViewTest() {
     }
 
     @Test
+    fun loadingView_Test() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(isDisplayed()))
+
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.stopLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
     fun presenterBind_Test() {
         Mockito.verify(mReservationPresenter).bind(mActivityTestRule.activity)
     }

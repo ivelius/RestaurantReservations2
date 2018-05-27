@@ -21,6 +21,7 @@ import com.example.yanbraslavsky.restaurantreservations.screens.reservation.Rese
 import junit.framework.Assert.assertTrue
 import kotlinx.android.synthetic.main.activity_table_selection.*
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -72,6 +73,25 @@ class CustomersViewTest : BaseViewTest() {
         // Check all views are displayed
         onView(withText(R.string.customers_screen_title)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun loadingView_Test() {
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.showLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(isDisplayed()))
+
+        mActivityTestRule.activity.runOnUiThread({
+            mActivityTestRule.activity.stopLoading()
+        })
+
+        wait()
+
+        onView(withId(R.id.loading_overlay)).check(matches(not(isDisplayed())))
     }
 
 
