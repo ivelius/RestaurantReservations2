@@ -26,7 +26,7 @@ class ReservationsPresenterTest {
     @Before
     fun setUp() {
         mReservationsRepository = mock()
-        Mockito.`when`(mReservationsRepository.getRemoteTablesList())
+        Mockito.`when`(mReservationsRepository.getTables())
                 .thenReturn(Single.just(mFakeTables))
 
         Mockito.`when`(mReservationsRepository.updateTable(any()))

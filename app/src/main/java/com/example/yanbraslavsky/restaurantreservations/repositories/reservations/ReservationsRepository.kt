@@ -6,6 +6,6 @@ import io.reactivex.Single
 
 interface ReservationsRepository {
 
-    fun getRemoteTablesList(): Single<List<TableEntity>>
+    fun getTables(): Single<List<TableEntity>>
     fun updateTable(tables: TableEntity) : Single<TableEntity>
 }

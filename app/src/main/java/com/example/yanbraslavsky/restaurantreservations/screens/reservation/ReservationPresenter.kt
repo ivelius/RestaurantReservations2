@@ -37,7 +37,7 @@ open class ReservationPresenter @Inject constructor(private val mReservationsRep
     private fun fetchData() {
         mBoundView?.showLoading()
         mDisposablesBag.add(
-                mReservationsRepository.getRemoteTablesList()
+                mReservationsRepository.getTables()
                         //we transform the entities by adding
                         //the selection representation and wrapping into GridCellTableModel
                         .map {
