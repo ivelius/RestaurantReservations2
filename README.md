@@ -21,25 +21,7 @@ My language of choice for this task was Kotlin . However there are plenty of oth
 
 ## Architecture
 I went with MVP , since it is fair simple and quite powerful . The perfect balance between complex solution and lack of architecture at all. MVP has proven to suite most of my needs during the years of development. I have also added an additional level of abstraction of data fetching by using repositories (following the repository design pattern) ... 
-
-## Constraints
-I am under severe time pressure so I have to choose wisely what I should focus on. I am focusing on functionality and architecture. Trying to do some adequate testing without polishing every aspect of this task.
-
-This app is targeted for tablets , I did constrain the orientation for landscape only , for sake of simplicity and to not handle the state loss during rotation (which might be important , but I am intentionally leaving this out). I have tested this app on Nexus 10 Simulator running API 27. I have set minimum SDK , just to use some new fancy features of Android Jetpack and Kotlin. In real production life we all still target Gingerbread :(
-
-Even though I know it is hard to impress with this task solution , I am again highly recommend to check my other projects on this Github . I am especially proud of the following :
-
-  - https://github.com/ivelius/Watch-View
-  - https://github.com/ivelius/DurakGameClient
-  - https://github.com/ivelius/OpenGLEngineAndroid
-  - https://github.com/ivelius/Virtual-City
-  
-But there are more , written in different languages and technologies ...
-
-## Bonus task (search functionality)
-Due to time constraints I am not implementing this feature.  However if I would , I would start from something rather simple like this [stack overflow post describes](https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview). A few years back I have implemented my own search functionality completely from scratch using material design (when there was no support for material design yet). You can check it out in [Home24 application](https://play.google.com/store/apps/details?id=com.home24.android&hl=de) which is mostly written by me. Unfortunately I cannot share the code with you due to legal reasons.
-
-However ... as a bonus I have integrated a [Circle CI](https://circleci.com/) to this projects , and all the tests are run when changes are made.
+I have integrated a [Circle CI](https://circleci.com/) to this projects , and all the tests are run when changes are made.
 
 
 ## UI
@@ -57,8 +39,6 @@ I didn't abuse the project with unnecessary dependencies , I've only used what I
   - WorkScheduler (for recurring tasks)
 
 ## Tests
-Tests are important and there are many types of tests out there. I tried to test as much as I could given the time constraints . Obviously I did not cover all the edge cases nor the failure states . In reality writing tests is more time consuming than writing feature code , but it pays off in the end ...
-
 I have focused on 2 types of tests :
 
   - BL/Presenters tests - which are implemented through plain Junit Testing and run very fast. I mostly test the business logic and interaction with views (which are abstracted)
